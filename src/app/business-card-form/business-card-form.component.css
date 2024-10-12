@@ -1,0 +1,30 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Seven columns for each property + actions /
+    gap: 16px; / Space between grid items /
+    margin: 20px 0; / Top and bottom margins /
+}
+
+.grid-header {
+    display: contents; / Allow header to align with the grid /
+    font-weight: bold; / Make header bold /
+}
+
+.grid-item {
+    background-color: #f9f9f9; / Background color for grid items /
+    border: 1px solid #ddd; / Border around the items /
+    padding: 8px; / Padding inside the grid item /
+    text-align: center; / Center align text /
+}
+
+.grid-body {
+    display: contents; / Align items in the body with the grid /
+}
+
+/ Optional: Style for header row /
+.grid-header > div {
+    background-color: #e7f3ff; / Light blue background for headers /
+    padding: 10px; / Padding for header /
+    text-align: center; / Center align text /
+    border-bottom: 2px solid #ddd; / Bottom border for separation */
+}

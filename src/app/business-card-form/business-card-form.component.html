@@ -1,0 +1,22 @@
+<div class="grid-container">
+  <div class="grid-header">
+      <div>Name</div>
+      <div>Gender</div>
+      <div>Date of Birth</div>
+      <div>Email</div>
+      <div>Phone</div>
+      <div>Address</div>
+      <div>Actions</div>
+  </div>
+  <div class="grid-body" *ngFor="let card of businessCards">
+      <div class="grid-item">{{ card.name }}</div>
+      <div class="grid-item">{{ card.gender }}</div>
+   
+      <div class="grid-item">{{ card.email }}</div>
+      <div class="grid-item">{{ card.phone }}</div>
+      <div class="grid-item">{{ card.address }}</div>
+      <div class="grid-item">
+         
+      </div>
+  </div>
+</div>
