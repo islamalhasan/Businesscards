@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { BusinessCardFormComponent } from './business-card-form/business-card-form.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,BusinessCardFormComponent,RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
