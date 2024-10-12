@@ -1,22 +1,27 @@
-<div class="grid-container">
-  <div class="grid-header">
-      <div>Name</div>
-      <div>Gender</div>
-      <div>Date of Birth</div>
-      <div>Email</div>
-      <div>Phone</div>
-      <div>Address</div>
-      <div>Actions</div>
+<div class="container">
+  <!-- Grid Header -->
+  <div class="row text-center font-weight-bold">
+    <div class="col">Name</div>
+    <div class="col">Gender</div>
+    <div class="col">Date of Birth</div>
+    <div class="col">Email</div>
+    <div class="col">Phone</div>
+    <div class="col">Address</div>
+    <div class="col">Actions</div>
   </div>
-  <div class="grid-body" *ngFor="let card of businessCards">
-      <div class="grid-item">{{ card.name }}</div>
-      <div class="grid-item">{{ card.gender }}</div>
-   
-      <div class="grid-item">{{ card.email }}</div>
-      <div class="grid-item">{{ card.phone }}</div>
-      <div class="grid-item">{{ card.address }}</div>
-      <div class="grid-item">
-         
-      </div>
+
+  <!-- Grid Body -->
+  <div class="row" *ngFor="let card of businessCards">
+    <div class="col">{{ card.name }}</div>
+    <div class="col">{{ card.gender }}</div>
+    <div class="col">{{ card.dateOfBirth | date }}</div> <!-- Date formatting for Date of Birth -->
+    <div class="col">{{ card.email }}</div>
+    <div class="col">{{ card.phone }}</div>
+    <div class="col">{{ card.address }}</div>
+    <div class="col">
+      <!-- Actions: Add buttons or actions like edit/delete here -->
+      <button class="btn btn-primary btn-sm">Edit</button>
+      <button class="btn btn-danger btn-sm">Delete</button>
+    </div>
   </div>
 </div>
