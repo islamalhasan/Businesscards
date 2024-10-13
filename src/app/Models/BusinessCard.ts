@@ -9,5 +9,6 @@ export interface BusinessCard {
     address: string;
     photo?: string; // Optional for photo URL
     notes?: string; // Optional for additional notes
-    qrCode?: string; // Optional for QR code data
+    qrCode?: string; 
+    UserId?: number// Optional for QR code data
 }
