@@ -1,27 +1,160 @@
 <div class="container">
+  <h1>Business Cards</h1>
+
+<!-- Create New Business Card Section -->
+<div class="create-section">
+  <h2>Create a New Business Card</h2>
+  <form (ngSubmit)="createBusinessCard()">
+      <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" [(ngModel)]="newCard.name" name="name" required>
+      </div>
+      <div class="form-group">
+          <label for="Address">Address</label>
+          <input type="text" id="Address" [(ngModel)]="newCard.address" name="address" required>
+      </div>
+      <div class="form-group">
+          <label for="gender">Gender</label>
+          <input type="text" id="gender" [(ngModel)]="newCard.gender" name="gender" required>
+      </div>
+      <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" [(ngModel)]="newCard.email" name="email" required>
+      </div>
+      <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" [(ngModel)]="newCard.phone" name="phone" required>
+      </div>
+      <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input type="date" id="dateOfBirth" [(ngModel)]="newCard.dateOfBirth" name="dateOfBirth" required>
+      </div>
+      <div class="form-group">
+          <label for="photo">Photo</label>
+          <input type="text" id="photo" [(ngModel)]="newCard.photo" name="photo" required>
+      </div>
+  
+ 
+      <button type="submit" class="submit-button">Create Business Card</button>
+
+      <!--<div class="upload-container">
+        <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+        <button (click)="uploadCsv()" [disabled]="!selectedFile">Upload CSV</button>
+      </div>-->
+     
+      <div class="upload-container">
+       
+        <h3>Upload Business Cards CSV</h3>
+        <div 
+          class="drop-zone"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+          [class.drag-over]="isDragOver">
+          <p>Drag and drop your CSV file here, or click to select one.</p>
+          <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+        </div>
+      
+        <button id="c" (click)="uploadCsv()">Upload</button>
+      </div>
+      
+      <!-- Preview the CSV Data -->
+      <div *ngIf="previewData.length > 0">
+        <h4>Preview Data</h4>
+        <table>
+          <thead>
+            <tr>
+              <th *ngFor="let header of getCsvHeaders()">{{ header }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of previewData">
+              <td *ngFor="let header of getCsvHeaders()">{{ row[header] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+  </form>
+
+  <!--<h3>Existing Business Cards</h3>
+  <ul class="existing-cards">
+      <li *ngFor="let card of businessCards">{{ card.name }} - {{ card.gender }}</li>
+  </ul>-->
+</div>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+      <h2>Filters</h2>
+      <div class="filter-inputs">
+          <div>
+              <label for="filter">Filter by Name:</label>
+              <input type="text" id="filter" [(ngModel)]="filterText" placeholder="Enter name">
+          </div>
+          <div>
+              <label for="dateOfBirth">Filter by Date of Birth:</label>
+              <input type="date" id="dateOfBirth" [(ngModel)]="filterdateOfBirth">
+          </div>
+          <div>
+              <label for="phone">Filter by Phone:</label>
+              <input type="tel" id="phone" [(ngModel)]="filterPhone" placeholder="Enter phone number">
+          </div>
+          <div>
+              <label for="gender">Filter by Gender:</label>
+              <select id="gender" [(ngModel)]="filterGender">
+                  <option value="">All</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+              </select>
+          </div>
+          <div>
+              <label for="email">Filter by Email:</label>
+              <input type="email" id="email" [(ngModel)]="filterEmail" placeholder="Enter email">
+          </div>
+      </div>
+      <!-- Search and Clear Buttons -->
+      <div class="filter-buttons">
+          <button id="Search" (click)="applyFilters()">Search</button>
+          <button id="Clear" (click)="clearFilters()">Clear</button>
+        
+      </div>
+  </div>
+
+
+  <div class="button-container">
+    <button id="exportCsv" (click)="exportCsv()">Export to CSV</button>
+    <button id= "exportXml" (click)="exportXml()">Export to XML</button>
+  
+  </div>
+
+
+
+  
   <!-- Grid Header -->
-  <div class="row text-center font-weight-bold">
-    <div class="col">Name</div>
-    <div class="col">Gender</div>
-    <div class="col">Date of Birth</div>
-    <div class="col">Email</div>
-    <div class="col">Phone</div>
-    <div class="col">Address</div>
-    <div class="col">Actions</div>
+  <div class="row header-row">
+      <div class="col">Name</div>
+      <div class="col">Gender</div>
+      <div class="col">Date of Birth</div>
+      <div class="col">Email</div>
+      <div class="col">Phone</div>
+      <div class="col">Address</div>
+      <div class="col">Actions</div>
   </div>
 
   <!-- Grid Body -->
-  <div class="row" *ngFor="let card of businessCards">
-    <div class="col">{{ card.name }}</div>
-    <div class="col">{{ card.gender }}</div>
-    <div class="col">{{ card.dateOfBirth | date }}</div> <!-- Date formatting for Date of Birth -->
-    <div class="col">{{ card.email }}</div>
-    <div class="col">{{ card.phone }}</div>
-    <div class="col">{{ card.address }}</div>
-    <div class="col">
-      <!-- Actions: Add buttons or actions like edit/delete here -->
-      <button class="btn btn-primary btn-sm">Edit</button>
-      <button class="btn btn-danger btn-sm">Delete</button>
-    </div>
+  <div class="row card-row" *ngFor="let card of filteredCards.length > 0 ? filteredCards : businessCards">
+      <div class="col">{{ card.name }}</div>
+      <div class="col">{{ card.gender }}</div>
+      <div class="col">{{ card.dateOfBirth | date }}</div>
+      <div class="col">{{ card.email }}</div>
+      <div class="col">{{ card.phone }}</div>
+      <div class="col">{{ card.address }}</div>
+      <div class="col actions">
+          <button class="btn btn-primary btn-sm">Edit</button>
+          <button class="btn btn-danger btn-sm">Delete</button>
+      </div>
   </div>
+
+  
 </div>
