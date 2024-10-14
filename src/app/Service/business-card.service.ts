@@ -2,6 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BusinessCard } from '../Models/BusinessCard'; 
+import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr'
+
 
 
 
@@ -86,5 +89,25 @@ importCsvData(csvData: any[]): Observable<any> {
   return this.http.post(`${this.apiUrl}/import/csv`, csvData, { headers });
 }
 
+
+// Import XML
+importXml(file: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('file', file); // Attach the XML file to the form data
+
+  // Send a POST request with the form data
+  return this.http.post(`${this.apiUrl}/import/xml`, formData, {
+    reportProgress: true,
+    responseType: 'text' // Expect a text response from the server
+  });
+}
+
+updateBusinessCard(id: number, updatedData: any) {
+  return this.http.put(`${this.apiUrl}/${id}`, updatedData);
+}
+
+deleteBusinessCard(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/${id}`);
+}
 
 }

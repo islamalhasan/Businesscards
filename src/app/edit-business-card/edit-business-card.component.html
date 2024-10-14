@@ -1,0 +1,94 @@
+
+
+<div >
+    <h2 mat-dialog-title>Update Business Card</h2>
+    <mat-dialog-content>
+  <form [formGroup]="businessCardForm" >
+    
+    <!-- Row 1: Name and Gender Fields -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" required>
+        <div *ngIf="businessCardForm.get('name')?.hasError('required') && businessCardForm.get('name')?.touched">
+          Name is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender" required>
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div *ngIf="businessCardForm.get('gender')?.hasError('required') && businessCardForm.get('gender')?.touched">
+          Gender is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Date of Birth and Email Fields -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" required>
+        <div *ngIf="businessCardForm.get('email')?.hasError('required') && businessCardForm.get('email')?.touched">
+          Email is required.
+        </div>
+        <div *ngIf="businessCardForm.get('email')?.hasError('email') && businessCardForm.get('email')?.touched">
+          Please enter a valid email address.
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Phone and Address Fields -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input id="phone" type="tel" formControlName="phone" required>
+        <div *ngIf="businessCardForm.get('phone')?.hasError('required') && businessCardForm.get('phone')?.touched">
+          Phone number is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" formControlName="address" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Row 4: Notes and Photo Upload -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea id="notes" formControlName="notes" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Upload Photo</label>
+        <input id="photo" type="file" (change)="onFileChange($event)" accept="image/*">
+      </div>
+    </div>
+
+    <!-- Image Preview -->
+    <div class="form-row">
+   <img [src]="'data:image/png;base64,' + businessCardForm.get('photo')?.value" alt="Photo Preview" style="max-width: 50%; margin-top: 10px;" />
+      </div>    <div class="form-group" *ngIf="businessCardForm.get('photo')?.value">
+       
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button  type="button" (click)="onCancel()">Cancel</button>
+      <button type="submit" (click)="onSave()">Save</button>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>
+  

@@ -41,39 +41,50 @@
         <input type="file" (change)="onFileSelected($event)" accept=".csv" />
         <button (click)="uploadCsv()" [disabled]="!selectedFile">Upload CSV</button>
       </div>-->
-     
       <div class="upload-container">
-       
-        <h3>Upload Business Cards CSV</h3>
+        <h3>Upload Business Cards</h3>
+      
+        <!-- Dropdown to select file type (CSV or XML) -->
+        <label for="fileType">Select File Type:</label>
+        <select id="fileType" [(ngModel)]="selectedFileType">
+          <option value="csv">CSV</option>
+          <option value="xml">XML</option>
+        </select>
+      
+        <!-- Single drop zone and file input for both CSV and XML -->
         <div 
           class="drop-zone"
           (dragover)="onDragOver($event)"
           (dragleave)="onDragLeave($event)"
           (drop)="onDrop($event)"
           [class.drag-over]="isDragOver">
-          <p>Drag and drop your CSV file here, or click to select one.</p>
-          <input type="file" (change)="onFileSelected($event)" accept=".csv" />
+          <p>Drag and drop your file here, or click to select one.</p>
+          <input type="file" (change)="onFileSelected($event)" [accept]="selectedFileType === 'csv' ? '.csv' : '.xml'" />
+        
+
         </div>
       
-        <button id="c" (click)="uploadCsv()">Upload</button>
+        <button id="uploadBtn" (click)="uploadFile()">Upload</button>
       </div>
       
-      <!-- Preview the CSV Data -->
+      <!-- Preview the CSV or XML Data -->
       <div *ngIf="previewData.length > 0">
         <h4>Preview Data</h4>
         <table>
           <thead>
             <tr>
-              <th *ngFor="let header of getCsvHeaders()">{{ header }}</th>
+              <th *ngFor="let header of getHeaders()">{{ header }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of previewData">
-              <td *ngFor="let header of getCsvHeaders()">{{ row[header] }}</td>
+              <td *ngFor="let header of getHeaders()">{{ row[header] }}</td>
             </tr>
           </tbody>
         </table>
       </div>
+      
+      
       
   </form>
 
@@ -151,10 +162,15 @@
       <div class="col">{{ card.phone }}</div>
       <div class="col">{{ card.address }}</div>
       <div class="col actions">
-          <button class="btn btn-primary btn-sm">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
+        <button id="Update" (click)="openUpdateDialog(card)">Update</button>
+
+        <button class="btn btn-danger btn-sm" (click)="confirmDelete(card.id)">Delete</button>
+
       </div>
   </div>
 
   
 </div>
+
+
+
