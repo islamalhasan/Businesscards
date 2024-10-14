@@ -9,6 +9,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { provideHttpClient } from '@angular/common/http';
 import { BusinessCardFormComponent } from './business-card-form/business-card-form.component';
+import { EditBusinessCardComponent } from './edit-business-card/edit-business-card.component';
 
 
 
@@ -18,6 +19,8 @@ import { BusinessCardFormComponent } from './business-card-form/business-card-fo
     declarations: [
      // Declare AppComponent here
      // Declare your BusinessCardFormComponent
+
+     
         
     ],
     imports: [
@@ -25,7 +28,6 @@ import { BusinessCardFormComponent } from './business-card-form/business-card-fo
         AppComponent,
         FormsModule,
         NgxSpinnerModule,
-        ToastrModule.forRoot() ,// Add ToastrModule here
         RouterModule.forRoot(routes)  // Configures routing
     ],
     providers: [BusinessCardService,provideHttpClient()], // Add any services here if needed

@@ -7,27 +7,39 @@ import { BusinessCard } from '../Models/BusinessCard';
 import { Observable } from 'rxjs';
 import saveAs from 'file-saver';
 import * as Papa from 'papaparse'; // Correct way to import PapaParse
+import { parseString } from 'xml2js';
+import { EditBusinessCardComponent } from '../edit-business-card/edit-business-card.component';
+import { MatDialog } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for Toastr
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+
+
+
+
 
 
 
 @Component({
   selector: 'app-business-card-form',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+   ],
   templateUrl: './business-card-form.component.html',
   styleUrl: './business-card-form.component.css'
+  
 })
 export class BusinessCardFormComponent {
-  deleteBusinessCard(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-  selectCard(_t5: any) {
-    throw new Error('Method not implemented.');
-  }
+
   businessCards: any[] = []; // Initialize as an empty array
   filteredCards: BusinessCard[] = [];
   previewData: any[] = [];  // To store parsed CSV data for preview
   isDragOver: boolean = false; // To track drag state
+  selectedFileType: string = 'csv'; // Default to CSV
+  selectedFile: File | null = null;
+
 
 
   
@@ -42,7 +54,7 @@ export class BusinessCardFormComponent {
     id: 0,
     name: '',
     gender: '',
-    dateOfBirth:null,
+    dateOfBirth:new Date(),
     email: '',
     address: '',
     phone: '',
@@ -50,8 +62,10 @@ export class BusinessCardFormComponent {
     notes:'',
     UserId: 1
   };
-  selectedFile: File | null = null;
-  constructor( public BusinessCardHome: BusinessCardService) { }
+
+
+  
+  constructor( public BusinessCardHome: BusinessCardService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadBusinessCards(); // Load business cards when the component initializes
@@ -129,80 +143,176 @@ exportXml() {
 }
 
 
-  // Handle file selection
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-    }
+  // Define the file type for the dropdown
+
+
+
+// Handle drag and drop events
+onDragOver(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = true;
+}
+
+onDragLeave(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = false;
+}
+
+onDrop(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = false;
+  const file = event.dataTransfer?.files[0];
+  if (file) {
+    this.selectedFile = file;
+    this.processFile(file);
+  } else {
+    alert('No valid file was dropped.');
   }
+}
 
-  onDragOver(event: DragEvent) {
-    event.preventDefault(); // Prevent default to allow drop
-    this.isDragOver = true; // Highlight the drop zone
+// Handle file selection
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (file) {
+    this.selectedFile = file;
+    this.processFile(file);
   }
+}
 
-  onDragLeave(event: DragEvent) {
-    event.preventDefault(); // Prevent default
-    this.isDragOver = false; // Remove highlight
+// Process the selected file based on its type
+processFile(file: File) {
+  if (this.selectedFileType === 'csv') {
+    this.parseCsvFile(file);
+  } else if (this.selectedFileType === 'xml') {
+    this.parseXmlFile(file);
   }
+}
 
-  onDrop(event: DragEvent) {
-    event.preventDefault();
-    this.isDragOver = false;
+// Parse CSV file
+parseCsvFile(file: File) {
+  Papa.parse(file, {
+    header: true,
+    complete: (result) => {
+      this.previewData = result.data;
+    },
+    error: (error) => console.error('Error parsing CSV:', error)
+  });
+}
 
-    const file = event.dataTransfer?.files[0]; // Get the dropped file
-
-    // Check if the file is defined
-    if (file instanceof File) {
-        this.selectedFile = file;
-        this.parseCsvFile(file); // Parse the CSV for preview
-    } else {
-        alert('No valid file was dropped.');
-    }
-  }
-
-  parseCsvFile(file: File) {
-    Papa.parse(file, {
-      header: true,
-      complete: (result) => {
-        this.previewData = result.data; // Store parsed data for preview
-      },
-      error: (error) => {
-        console.error('Error parsing CSV:', error);
+// Parse XML file
+parseXmlFile(file: File) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const xmlString = reader.result as string;
+    parseString(xmlString, (err, result) => {
+      if (err) {
+        console.error('Error parsing XML:', err);
+      } else {
+        this.previewData = result; // Store parsed data for preview
       }
     });
-  }
+  };
+  reader.readAsText(file);
+  
+}
 
-  // Upload the CSV file
-  uploadCsv() {
-    if (this.selectedFile) {
-      this.BusinessCardHome.importCsv(this.selectedFile).subscribe(response => {
-        console.log('CSV file uploaded successfully:', response);
-        alert('CSV file imported successfully');
-        this.loadBusinessCards(); // Reload the grid after CSV import
-        this.onFileSelected
-
-      
-
-      }, error => {
-        console.error('Error uploading CSV file:', error);
-        alert('Failed to import CSV file');
-      });
-    } else {
-      alert('Please select a CSV file.');
+// Upload the selected file
+uploadFile() {
+  console.log('Selected File Type:', this.selectedFileType); 
+  console.log('Selected File:', this.selectedFile);
+  if (this.selectedFile) {
+    if (this.selectedFileType === 'csv') {
+      console.log('Uploading CSV file...');
+      this.uploadCsv();
+    } else if (this.selectedFileType === 'xml') {
+      console.log('Uploading XML file...');
+      this.uploadXml();
     }
+  } else {
+    alert('Please select a file.');
   }
+}
+
+// Upload CSV to backend
+uploadCsv() {
+  this.BusinessCardHome.importCsv(this.selectedFile!).subscribe(response => {
+    console.log('CSV file uploaded successfully:', response);
+    alert('CSV file imported successfully');
+    this.loadBusinessCards(); // Reload the grid after CSV import
+  }, error => {
+    console.error('Error uploading CSV file:', error);
+    alert('Failed to import CSV file');
+  });
+}
+
+// Upload XML
+uploadXml() {
+  console.log('Starting XML upload...'); 
+  this.BusinessCardHome.importXml(this.selectedFile!).subscribe(
+    response => {
+      console.log('XML file uploaded successfully:', response);
+      alert('XML file imported successfully');
+      this.loadBusinessCards(); // Reload the grid after XML import
+    },
+    error => {
+      console.error('Error uploading XML file:', error);
+      alert('Failed to import XML file');
+    }
+  );
+}
+
+getHeaders(): string[] {
+  return this.previewData.length > 0 ? Object.keys(this.previewData[0]) : [];
+}
 
 
-  clearPreviewData() {
-    this.previewData = [];
-    this.selectedFile = null;
-  }
-  getCsvHeaders(): string[] {
-    return this.previewData.length > 0 ? Object.keys(this.previewData[0]) : [];
-  }
+openUpdateDialog(card: BusinessCard) {
+  const dialogRef = this.dialog.open(EditBusinessCardComponent, {
+   
 
+    data: card,
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+        const index = this.businessCards.findIndex(c => c.id === result.id);
+        if (index !== -1) {
+            this.businessCards[index] = result; // Update the card in the list with the updated data
+        }
+       
+    }
+  });
+
+}
+
+
+ // Method to show confirmation dialog
+ confirmDelete(cardId: number) {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '300px',
+    data: { id: cardId }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.deleteBusinessCard(cardId);
+    }
+  });
+}
+
+// Method to delete business card
+deleteBusinessCard(id: number) {
+  this.BusinessCardHome.deleteBusinessCard(id).subscribe(
+    response => {
+      this.businessCards = this.businessCards.filter(card => card.id !== id);
+      // Optionally show a success message
+    },
+    error => {
+      // Handle error (e.g., show an error message)
+    }
+  );
+}
 
   
 }

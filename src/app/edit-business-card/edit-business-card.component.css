@@ -1,0 +1,156 @@
+/* General Styles for Dialog */
+.mat-dialog-container {
+    padding: 20px; /* Inner padding for the dialog */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow for depth */
+    background-color: #ffffff; /* White background for dialog */
+}
+
+/* Header Styles */
+.mat-dialog-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #3f51b5; /* Material Design primary color */
+    font-size: 1.5rem; /* Larger title size */
+}
+
+/* Close Button Styles */
+.mat-dialog-close {
+    position: absolute; /* Positioned in the top right corner */
+    top: 15px;
+    right: 15px;
+    background: transparent; /* Transparent background */
+    border: none; /* No border */
+    color: #f44336; /* Color for close button */
+    font-size: 1.25rem; /* Font size for close button */
+    cursor: pointer; /* Pointer cursor */
+}
+
+/* Form Styles */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: none; /* Removed border for a cleaner look */
+    border-radius: 8px;
+    background-color: #f9f9f9; /* Light background for contrast */
+    box-shadow: none; /* Remove shadow since the dialog has its own */
+}
+
+/* Form Row Styles */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+/* Form Group Styles */
+.form-group {
+    flex: 1; /* Flex-grow to equally divide space */
+    margin-right: 10px;
+}
+
+.form-group:last-child {
+    margin-right: 0; /* Remove margin for last element */
+}
+
+/* Label Styles */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555; /* Darker color for labels */
+}
+
+/* Input and Select Styles */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px; /* Increased padding for comfort */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease; /* Smooth transition */
+}
+
+/* Focus Styles */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #3f51b5; /* Highlight border color on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.5); /* Add shadow on focus */
+}
+
+/* Error Message Styles */
+div.error-message {
+    color: red;
+    font-size: 0.875em; /* Smaller font for error messages */
+}
+
+/* Actions Button Styles */
+.form-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-top: 20px;
+}
+
+button {
+    background-color: #3f51b5; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s; /* Added transform transition */
+    margin-left: 10px; /* Space between buttons */
+}
+
+button:hover {
+    background-color: #303f9f; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+button[type="button"] {
+    background-color: #f44336; /* Red for cancel button */
+}
+
+button[type="button"]:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+}
+
+/* Image Preview Styles */
+img {
+    max-width: 100%;
+    margin-top: 10px;
+    border-radius: 4px; /* Slight rounding for image preview */
+}
+
+/* Custom widths for buttons */
+#Cancel,
+#Save {
+    width: 100px;
+}
+
+/* Textarea Height */
+textarea {
+    height: 80px; /* Increased height for better visibility */
+}
+
+/* Success Message Styles */
+.success-message {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #28a745; /* Green border */
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
