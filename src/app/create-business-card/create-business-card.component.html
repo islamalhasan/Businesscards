@@ -49,7 +49,48 @@
           <button (click)="uploadCsv()" [disabled]="!selectedFile">Upload CSV</button>
         </div>-->
  
-        
+        <div class="upload-container">
+            <h3>Upload Business Cards</h3>
+          
+            <!-- Dropdown to select file type (CSV or XML) -->
+            <label for="fileType">Select File Type:</label>
+            <select id="fileType" [(ngModel)]="selectedFileType">
+              <option value="csv">CSV</option>
+              <option value="xml">XML</option>
+            </select>
+          
+            <!-- Single drop zone and file input for both CSV and XML -->
+            <div 
+              class="drop-zone"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)"
+              [class.drag-over]="isDragOver">
+              <p>Drag and drop your file here, or click to select one.</p>
+              <input type="file" (change)="onFileSelected($event)" [accept]="selectedFileType === 'csv' ? '.csv' : '.xml'" />
+            
+    
+            </div>
+          
+            <button id="uploadBtn" (click)="uploadFile()">Upload</button>
+          </div>
+          
+          <!-- Preview the CSV or XML Data -->
+          <div *ngIf="previewData.length > 0">
+            <h4>Preview Data</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th *ngFor="let header of getHeaders()">{{ header }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of previewData">
+                  <td *ngFor="let header of getHeaders()">{{ row[header] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
         
         
