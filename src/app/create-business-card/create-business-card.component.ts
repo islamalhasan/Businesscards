@@ -112,6 +112,95 @@ export class CreateBusinessCardComponent {
 
 
 
+
+// Handle drag and drop events
+onDragOver(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = true;
+}
+
+onDragLeave(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = false;
+}
+
+onDrop(event: DragEvent) {
+  event.preventDefault();
+  this.isDragOver = false;
+  const file = event.dataTransfer?.files[0];
+  if (file) {
+    this.selectedFile = file;
+    this.processFile(file);
+  } else {
+    alert('No valid file was dropped.');
+  }
+}
+
+// Handle file selection
+onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (file) {
+    this.selectedFile = file;
+    this.processFile(file);
+  }
+}
+
+// Process the selected file based on its type
+processFile(file: File) {
+  if (this.selectedFileType === 'csv') {
+    this.parseCsvFile(file);
+  } else if (this.selectedFileType === 'xml') {
+    this.parseXmlFile(file);
+  }
+}
+
+// Parse CSV file
+parseCsvFile(file: File) {
+  Papa.parse(file, {
+    header: true,
+    complete: (result) => {
+      this.previewData = result.data;
+    },
+    error: (error) => console.error('Error parsing CSV:', error)
+  });
+}
+
+// Parse XML file
+parseXmlFile(file: File) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const xmlString = reader.result as string;
+    parseString(xmlString, (err, result) => {
+      if (err) {
+        console.error('Error parsing XML:', err);
+      } else {
+        this.previewData = result; // Store parsed data for preview
+      }
+    });
+  };
+  reader.readAsText(file);
+  
+}
+
+// Upload the selected file
+uploadFile() {
+  console.log('Selected File Type:', this.selectedFileType); 
+  console.log('Selected File:', this.selectedFile);
+  if (this.selectedFile) {
+    if (this.selectedFileType === 'csv') {
+      console.log('Uploading CSV file...');
+      this.uploadCsv();
+    } else if (this.selectedFileType === 'xml') {
+      console.log('Uploading XML file...');
+      this.uploadXml();
+    }
+  } else {
+    alert('Please select a file.');
+  }
+}
+
+
 // Upload CSV to backend
 uploadCsv() {
   this.BusinessCardHome.importCsv(this.selectedFile!).subscribe(response => {
@@ -133,24 +222,8 @@ uploadXml() {
 }
 
 
-
-
-
 getHeaders(): string[] {
   return this.previewData.length > 0 ? Object.keys(this.previewData[0]) : [];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
