@@ -65,7 +65,7 @@ export class BusinessCardFormComponent {
 
 
   
-  constructor( public BusinessCardHome: BusinessCardService,private dialog: MatDialog) { }
+  constructor( public BusinessCardHome: BusinessCardService,private dialog: MatDialog,private router: Router) { }
 
   ngOnInit(): void {
     this.loadBusinessCards(); // Load business cards when the component initializes
@@ -314,5 +314,8 @@ deleteBusinessCard(id: number) {
   );
 }
 
+openCreatePage() {
+  this.router.navigate(['/create-business-card']);
+}
   
 }

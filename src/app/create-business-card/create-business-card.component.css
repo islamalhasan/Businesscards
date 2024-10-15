@@ -1,0 +1,384 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    padding: 20px;
+    background: #e7eff6; /* Light blue background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    margin-bottom: 30px; /* Spacing below the filter section */
+}
+
+.filter-section label {
+    display: block; /* Labels take the full width */
+    margin-bottom: 5px; /* Space below the labels */
+    font-weight: bold; /* Make labels stand out */
+    color: #333; /* Dark text color for readability */
+}
+
+.filter-inputs {
+    display: flex; /* Use flexbox for alignment */
+    flex-wrap: wrap; /* Allow wrapping of inputs */
+    gap: 15px; /* Space between input fields */
+}
+
+.filter-inputs div {
+    flex: 1; /* Make each input take equal space */
+    min-width: 200px; /* Minimum width for inputs */
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%; /* Full width */
+    padding: 10px; /* Inner padding */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners for inputs */
+    transition: border-color 0.3s; /* Smooth transition for focus effect */
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
+}
+
+.filter-buttons {
+    margin-top: 15px; /* Space above buttons */
+    display: flex; /* Flexbox for button alignment */
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 15px; /* Space between buttons */
+}
+
+button {
+    padding: 10px 15px; /* Padding for buttons */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor for buttons */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effect */
+}
+#Clear{
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text color */
+}
+#Search{
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text color */
+}
+
+
+.button-container {
+    gap: 15px;
+    text-align: right; /* Aligns the content (button) to the right */
+    margin: 5px 0; /* Adds some margin for spacing */
+  }
+  
+  #exportCsv {
+    padding: 10px 20px; /* Add padding to the button */
+    background-color: #28a745; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Removes the border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor to pointer when hovering */
+    margin: 10px;
+  }
+  #exportXml {
+    padding: 10px 20px; /* Add padding to the button */
+    background-color: #28a745; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Removes the border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor to pointer when hovering */
+  }
+
+
+  /* Main container for the upload area */
+.upload-container {
+    margin: 20px 0;
+    width: 100%; /* Make it responsive */
+    max-width: 600px; /* Limit maximum width */
+    margin-left: auto;
+    margin-right: auto; /* Center align */
+  }
+  
+  /* Styling the drop zone */
+  .drop-zone {
+    border: 2px dashed #007bff; /* Dashed border color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer; /* Indicate that it's clickable */
+    position: relative; /* Allow for positioning of inner elements */
+    background-color: #f9f9f9; /* Light background */
+  }
+  
+  .drop-zone:hover {
+    background-color: #e6f0ff; /* Light blue background on hover */
+  }
+  
+  /* Highlight drop zone when dragging */
+  .drag-over {
+    background-color: #d0e7ff; /* Color while dragging */
+  }
+  
+  /* File display area for selected file */
+  .file-display {
+    display: flex;
+    align-items: center;
+    margin-top: 15px; /* Space between drop zone and file display */
+  }
+  
+  /* Icon for the file */
+  .file-display img {
+    width: 30px; /* Adjust icon size */
+    height: 30px;
+    margin-right: 10px; /* Space between icon and file name */
+  }
+  
+  /* Styling the clear button */
+  .file-display button {
+    background-color: #dc3545; /* Red background for clear button */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer; /* Pointer cursor for button */
+    margin-left: 20px; /* Space between file name and button */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+  }
+  
+  .file-display button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }
+  
+  /* Styling for the upload button */
+  button#c {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px; /* Padding for button */
+    cursor: pointer; /* Pointer cursor */
+    margin-top: 20px; /* Space above the button */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+  }
+  
+  button#c:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Styling for the preview table */
+  table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Collapsed borders */
+    margin-top: 20px; /* Space above the table */
+  }
+  
+  /* Styling table headers and cells */
+  th, td {
+    border: 1px solid #ddd; /* Light border */
+    padding: 10px; /* Padding for cells */
+    text-align: left; /* Left align text */
+  }
+  
+  /* Header styling */
+  th {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+  }
+  
+  /* Zebra striping for table rows */
+  tbody tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Light gray background for odd rows */
+  }
+  
+  /* Hover effect for table rows */
+  tbody tr:hover {
+    background-color: #d9edf7; /* Light blue background on row hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .upload-container {
+      padding: 10px; /* Reduced padding for small screens */
+    }
+  
+    button#c, .file-display button {
+      width: 100%; /* Full width buttons on small screens */
+      margin-top: 10px; /* Space above the button */
+    }
+  }
+  
+  
+  
+  input[type="file"] {
+    margin-right: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  
+  .export-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+button:hover {
+    opacity: 0.9; /* Slight transparency on hover */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text color */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text color */
+}
+
+
+button:hover {
+    opacity: 0.9;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.row {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.header-row {
+    font-weight: bold;
+    background-color: #f1f1f1;
+}
+
+.card-row {
+    background: #ffffff;
+}
+
+.col {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.create-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+.existing-cards {
+    list-style: none;
+    padding: 0;
+}
+
+.existing-cards li {
+    margin: 5px 0;
+    font-weight: normal;
+}
